@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+
+        <record id="doctor_action" model="ir.actions.act_window">
+            <field name="name">Doctors</field>
+            <field name="res_model">hms.doctor</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <record id="doctor_iti" model="ir.ui.view">
+            <field name="name">Doctor View</field>
+            <field name="model">hms.doctor</field> 
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <!-- <field name="department_id"/>
+                    <field name="department_capacity"/> -->
+                </tree>
+            </field> 
+        </record>
+        <record id = 'hms_doctor_form_view' model = 'ir.ui.view'>
+            <field name="name">Doctor Form View</field>
+            <field name="model">hms.doctor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string = 'data'>
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="image"/>
+                        </group>
+                        <group string="Department Information">
+                            <field name="department_id" domain="[('is_opened', '=', True)]" placeholder="Select Department"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Doctors" id="docmenue" parent="itimenue" sequence='1' action="doctor_action"/>
+        <menuitem name="Doctors" id="docmenue" parent="itimenue" sequence='1' action="doctor_action" groups="iti_task.manager_group"/>
+    </data>
+</odoo>
+

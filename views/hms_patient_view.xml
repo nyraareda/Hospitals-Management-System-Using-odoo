@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record id="patient_action" model="ir.actions.act_window">
+    <field name="name">Patients</field>
+    <field name="res_model">hms.patient</field>
+    <field name="view_mode">tree,form,kanban</field>
+</record>
+
+        <record id="hms_patient_tree_view" model="ir.ui.view">
+            <field name="name">Patient Tree View</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hms_patient_form_view" model="ir.ui.view">
+            <field name="name">Patient Form View</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form string="Patient Form">
+                    <sheet>
+                        <group>
+                            <group string="Personal Information">
+                                <field name="first_name" placeholder='First name'/>
+                                <field name="last_name" placeholder='Last name'/>
+                                <field name="email"/>
+                                <field name="birthdate" placeholder='Birthdate'/>
+                                <field name="age"/>
+                            </group>
+                            <group string="Healthy Information">
+                                <field name="pcr"/>
+                                <field name="cr_ratio" attrs="{'required': [('pcr', '=', True)]}" placeholder="CR ratio"/>
+                                <field name="blood_type" placeholder='Select blood type'/>
+                                <field name="state" placeholder='Select state'/>
+                            </group>
+                        </group>
+
+                        <group string="Additional Information">
+                            <field name="history" attrs="{'invisible': [('age', '&lt;', 50)]}"/>
+                            <field name="address"/>
+                            <field name="image"/>
+                        </group>
+
+                        <group string="Department Information">
+                            <field name="department_id" domain="[('is_opened', '=', True)]" placeholder="Select Department"/>
+                            <field name="department_capacity"/>
+                        </group>
+
+                        <!-- <group string="Doctors Information">
+                            <field name="doctor_ids" attrs="{'readonly': [('department_id', '=', False)]}" domain="[('department_id', '=', department_id)]"/>
+                        </group> -->
+                        <group string="Doctors Information" groups="iti_task.manager_group">
+                            <field name="doctor_ids" attrs="{'readonly': [('department_id', '=', False)]}" domain="[('department_id', '=', department_id)]"/>
+                        </group>
+                        <group string="Patient Log History">
+                            <field name="log_history_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="ITI" id="itimenue"/>
+        <menuitem name="Patients" id="patientmenue" parent="itimenue" sequence='3' action="patient_action"/>
+        <menuitem name="Patients" id="patientmenue" parent="itimenue" sequence='3' action="patient_action" groups="iti_task.manager_group,iti_task.users_group"/>
+    </data>
+</odoo>

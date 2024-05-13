@@ -1,0 +1,1 @@
+from . import hms_doctor, hms_patients,hms_department,hms_patient_log,CrmHmsCustmorInherit
